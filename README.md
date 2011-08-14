@@ -28,7 +28,7 @@ If caffeine is not active and you turn it on with either 'caff on' or 'caff on #
 
 Download
 ----------------
-[Caffeine Controls](http://dl.dropbox.com/u/45930/Alfred%20Apps/Spotify%20Controls/Spotify%20Controls.alfredextension)
+[Caffeine Controls](http://dl.dropbox.com/u/45930/Alfred%20Apps/Caffeine%20Controls/Caffeine%20Controls.alfredextension)
     
 
 ## Version History ##

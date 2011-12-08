@@ -36,6 +36,7 @@ Download
 
 - Turn caffeine on for # minutes command modified: You no longer need
   the keyword *on*
+- Growl notification support
 
 
 ### 1.0.0 - August 10, 2011###

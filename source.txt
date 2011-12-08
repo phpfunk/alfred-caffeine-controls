@@ -1,12 +1,12 @@
 ### Controls ####
 # on
-# on 5
+# 5
 # off
 # quit or end
 # start or init
 ################################
 # On Indefinitely: caff on
-# On for 5 Minutes: caff on 5
+# On for 5 Minutes: caff 5
 # Off: caff off
 # Quit App: caff quit or caff end
 # Start App: caff start or caff init
@@ -21,44 +21,93 @@ on AppRunning(appName)
 	return appNameIsRunning
 end AppRunning
 
-to splitString(aString, delimiter)
-	set retVal to {}
-	set prevDelimiter to AppleScript's text item delimiters
-	log delimiter
-	set AppleScript's text item delimiters to {delimiter}
-	set retVal to every text item of aString
-	set AppleScript's text item delimiters to prevDelimiter
-	return retVal
-end splitString
-
 on alfred_script(q)
-	
-	set appActive to AppRunning("Caffeine")
-	set tmp to my splitString(q, " ")
-	try
-		set nm to item 2 of tmp
-	on error
-		set nm to "default"
-	end try
-
-	tell application "Caffeine"
-		if "on" is in q then
-			if not appActive then
-				activate
-			end if
-			try
-				(nm as real) div 1
-				turn on for (nm * 60)
-			on error
-				turn on
-			end try
-		else if "start" is in q or "init" is in q then
-			activate
-		else if "quit" is in q or "end" is in q then
-			quit
-		else
-			turn off
-		end if
-	end tell
-	
+  if q = "on" then
+    turnOn(0)
+  else if q is "start" or q is "init" then
+    growlNotify("Caffeine is starting...")
+    tell application "Caffeine" to activate
+  else if q is "quit" or q is "end" then
+    growlNotify("Caffeine is quitting...")
+    tell application "Caffeine" to quit
+  else if q is "off"
+    growlNotify("Caffeine is turning off...")
+    tell application "Caffeine" to turn off
+  else
+    turnOn(q)
+  end if
 end alfred_script
+
+on turnOn(min)
+  activateApplication()
+
+  if min is 0 then
+    growlNotify("Caffeine is turning on...")
+    tell application "Caffeine" to turn on
+  else
+    try
+      tell application "Caffeine" to turn on for (min as real) div 1 * 60
+			growlNotify("Caffeine is turning on for " & min & " minute(s)")
+		on error
+			tell application "Caffeine" to turn on
+		end try
+  end if
+end turnOn
+
+on activateApplication()
+  if not AppRunning("Caffeine") then
+    growlSetup()
+    growlNotify("Caffeine starting...")
+
+    tell application "Caffeine"
+      activate
+    end tell
+  end if
+end activateApplication
+
+on growlNotify(message)
+  tell application "System Events"
+    set isRunning to ¬
+      count of (every process whose bundle identifier is "com.Growl.GrowlHelperApp") > 0
+  end tell
+
+	if isRunning then
+    tell application id "com.Growl.GrowlHelperApp"
+      notify with name ¬
+        "Caffeine Notification" title ¬
+        "Caffeine Notification" description ¬
+        message application name "Caffeine Controls"
+    end tell
+  end if
+end growlNotify
+
+on growlSetup()
+  tell application "System Events"
+    set isRunning to ¬
+      count of (every process whose bundle identifier is "com.Growl.GrowlHelperApp") > 0
+  end tell
+
+	if isRunning then
+			tell application id "com.Growl.GrowlHelperApp"
+      -- Make a list of all the notification types
+      -- that this script will ever send:
+      set the allNotificationsList to ¬
+        {"Caffeine Notification"}
+
+      -- Make a list of the notifications
+      -- that will be enabled by default.
+      -- Those not enabled by default can be enabled later
+      -- in the 'Applications' tab of the Growl preferences.
+      set the enabledNotificationsList to ¬
+        {"Caffeine Notification"}
+
+      -- Register our script with growl.
+      -- You can optionally (as here) set a default icon
+      -- for this script's notifications.
+      register as application ¬
+        "Caffeine Controls" all notifications allNotificationsList ¬
+        default notifications enabledNotificationsList ¬
+        icon of application "Caffeine"
+		end tell
+	end if
+end growlNotify

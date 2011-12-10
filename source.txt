@@ -14,29 +14,51 @@
 # If you turn caffeine on and it's not started it will
 # start automatically for you first. No need to call
 # caff start first.
+################################
+# Growl support added by pfbruno -- Thx :)
 ### END ###
+
+on activateApplication()
+  if not AppRunning("Caffeine") then
+    growlSetup()
+    growlNotify("Caffeine starting...")
+
+    tell application "Caffeine"
+      activate
+    end tell
+  end if
+end activateApplication
 
 on AppRunning(appName)
 	tell application "System Events" to set appNameIsRunning to exists (processes where name is appName)
 	return appNameIsRunning
 end AppRunning
 
-on alfred_script(q)
-  if q = "on" then
-    turnOn(0)
-  else if q is "start" or q is "init" then
-    growlNotify("Caffeine is starting...")
-    tell application "Caffeine" to activate
-  else if q is "quit" or q is "end" then
-    growlNotify("Caffeine is quitting...")
-    tell application "Caffeine" to quit
-  else if q is "off"
-    growlNotify("Caffeine is turning off...")
-    tell application "Caffeine" to turn off
-  else
-    turnOn(q)
+on growlNotify(message)
+  tell application "System Events"
+    set isRunning to count of (every process whose bundle identifier is "com.Growl.GrowlHelperApp") > 0
+  end tell
+
+	if isRunning then
+    tell application id "com.Growl.GrowlHelperApp"
+      notify with name "Caffeine Notification" title "Caffeine Notification" description message application name "Caffeine Controls"
+    end tell
   end if
-end alfred_script
+end growlNotify
+
+on growlSetup()
+  tell application "System Events"
+    set isRunning to count of (every process whose bundle identifier is "com.Growl.GrowlHelperApp") > 0
+  end tell
+
+	if isRunning then
+			tell application id "com.Growl.GrowlHelperApp"
+      set the allNotificationsList to {"Caffeine Notification"}
+      set the enabledNotificationsList to {"Caffeine Notification"}
+      register as application "Caffeine Controls" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "Caffeine"
+		end tell
+	end if
+end growlNotify
 
 on turnOn(min)
   activateApplication()
@@ -54,60 +76,19 @@ on turnOn(min)
   end if
 end turnOn
 
-on activateApplication()
-  if not AppRunning("Caffeine") then
-    growlSetup()
-    growlNotify("Caffeine starting...")
-
-    tell application "Caffeine"
-      activate
-    end tell
+on alfred_script(q)
+  if q = "on" then
+    turnOn(0)
+  else if q is "start" or q is "init" then
+    growlNotify("Caffeine is starting...")
+    tell application "Caffeine" to activate
+  else if q is "quit" or q is "end" then
+    growlNotify("Caffeine is quitting...")
+    tell application "Caffeine" to quit
+  else if q is "off"
+    growlNotify("Caffeine is turning off...")
+    tell application "Caffeine" to turn off
+  else
+    turnOn(q)
   end if
-end activateApplication
-
-on growlNotify(message)
-  tell application "System Events"
-    set isRunning to ¬
-      count of (every process whose bundle identifier is "com.Growl.GrowlHelperApp") > 0
-  end tell
-
-	if isRunning then
-    tell application id "com.Growl.GrowlHelperApp"
-      notify with name ¬
-        "Caffeine Notification" title ¬
-        "Caffeine Notification" description ¬
-        message application name "Caffeine Controls"
-    end tell
-  end if
-end growlNotify
-
-on growlSetup()
-  tell application "System Events"
-    set isRunning to ¬
-      count of (every process whose bundle identifier is "com.Growl.GrowlHelperApp") > 0
-  end tell
-
-	if isRunning then
-			tell application id "com.Growl.GrowlHelperApp"
-      -- Make a list of all the notification types
-      -- that this script will ever send:
-      set the allNotificationsList to ¬
-        {"Caffeine Notification"}
-
-      -- Make a list of the notifications
-      -- that will be enabled by default.
-      -- Those not enabled by default can be enabled later
-      -- in the 'Applications' tab of the Growl preferences.
-      set the enabledNotificationsList to ¬
-        {"Caffeine Notification"}
-
-      -- Register our script with growl.
-      -- You can optionally (as here) set a default icon
-      -- for this script's notifications.
-      register as application ¬
-        "Caffeine Controls" all notifications allNotificationsList ¬
-        default notifications enabledNotificationsList ¬
-        icon of application "Caffeine"
-		end tell
-	end if
-end growlNotify
+end alfred_script

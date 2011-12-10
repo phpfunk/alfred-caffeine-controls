@@ -28,7 +28,7 @@ If caffeine is not active and you turn it on with either 'caff on' or 'caff #', 
 
 Download
 ----------------
-[Caffeine Controls](https://github.com/pfbruno/alfred-caffeine-controls/downloads)
+[Caffeine Controls](http://dl.dropbox.com/u/45930/Alfred%20Apps/Caffeine%20Controls/Caffeine%20Controls.alfredextension)
 
 
 ## Version History ##

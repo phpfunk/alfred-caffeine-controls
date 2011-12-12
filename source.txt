@@ -73,7 +73,6 @@ on alfred_script(q)
 	
 	if msg is not equal to "" then
 		sendMsg(msg)
-		return msg
 	end if
 	
 end alfred_script

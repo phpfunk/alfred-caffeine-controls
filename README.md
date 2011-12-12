@@ -34,7 +34,7 @@ Download
 
 
 ## Version History ##
-### 1.2.1 - December 11, 2011###
+### 1.2.0 - December 11, 2011###
 
 - Huge code cleanup
 - Toggle added - just type 'caff' with no param to toggle on and off

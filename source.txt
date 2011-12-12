@@ -2,93 +2,81 @@
 # on
 # 5
 # off
-# quit or end
+# quit or end or exit
 # start or init
+# no argument will toggle Caffeine on and off
 ################################
 # On Indefinitely: caff on
 # On for 5 Minutes: caff 5
 # Off: caff off
-# Quit App: caff quit or caff end
+# Quit App: caff quit or caff end or caff exit
 # Start App: caff start or caff init
+# Toggle: caff
 ################################
 # If you turn caffeine on and it's not started it will
 # start automatically for you first. No need to call
 # caff start first.
-################################
-# Growl support added by pfbruno -- Thx :)
-### END ###
 
-on activateApplication()
-  if not AppRunning("Caffeine") then
-    growlSetup()
-    growlNotify("Caffeine starting...")
-
-    tell application "Caffeine"
-      activate
-    end tell
-  end if
-end activateApplication
-
-on AppRunning(appName)
-	tell application "System Events" to set appNameIsRunning to exists (processes where name is appName)
-	return appNameIsRunning
-end AppRunning
-
-on growlNotify(message)
-  tell application "System Events"
-    set isRunning to count of (every process whose bundle identifier is "com.Growl.GrowlHelperApp") > 0
-  end tell
-
+on sendMsg(msg)
+	tell application "System Events"
+		set isRunning to (count of (every process whose bundle identifier is "com.Growl.GrowlHelperApp")) > 0
+	end tell
+	
 	if isRunning then
-    tell application id "com.Growl.GrowlHelperApp"
-      notify with name "Caffeine Notification" title "Caffeine Notification" description message application name "Caffeine Controls"
-    end tell
-  end if
-end growlNotify
-
-on growlSetup()
-  tell application "System Events"
-    set isRunning to count of (every process whose bundle identifier is "com.Growl.GrowlHelperApp") > 0
-  end tell
-
-	if isRunning then
-			tell application id "com.Growl.GrowlHelperApp"
-      set the allNotificationsList to {"Caffeine Notification"}
-      set the enabledNotificationsList to {"Caffeine Notification"}
-      register as application "Caffeine Controls" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "Caffeine"
+		tell application id "com.Growl.GrowlHelperApp"
+			set the allNotificationsList to {"Caffeine"}
+			set the enabledNotificationsList to {"Caffeine"}
+			register as application "Caffeine" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "Caffeine"
+			notify with name "Caffeine" title "Caffeine" description msg application name "Caffeine" icon of application "Caffeine"
 		end tell
 	end if
-end growlNotify
-
-on turnOn(min)
-  activateApplication()
-
-  if min is 0 then
-    growlNotify("Caffeine is turning on...")
-    tell application "Caffeine" to turn on
-  else
-    try
-      tell application "Caffeine" to turn on for (min as real) div 1 * 60
-			growlNotify("Caffeine is turning on for " & min & " minute(s)")
-		on error
-			tell application "Caffeine" to turn on
-		end try
-  end if
-end turnOn
+end sendMsg
 
 on alfred_script(q)
-  if q = "on" then
-    turnOn(0)
-  else if q is "start" or q is "init" then
-    growlNotify("Caffeine is starting...")
-    tell application "Caffeine" to activate
-  else if q is "quit" or q is "end" then
-    growlNotify("Caffeine is quitting...")
-    tell application "Caffeine" to quit
-  else if q is "off"
-    growlNotify("Caffeine is turning off...")
-    tell application "Caffeine" to turn off
-  else
-    turnOn(q)
-  end if
+	
+	set msg to ""
+	
+	tell application "Caffeine"
+		if q is equal to "quit" or q is equal to "end" or q is equal to "exit" then
+			set msg to "Bye Bye, see you next time."
+			quit
+		else if q is equal to "" or q is missing value then
+			set toggle to not active
+			if toggle is true then
+				set msg to "Turned on indefinitely"
+				turn on
+			else
+				set msg to "Turned off"
+				turn off
+			end if
+		else if q is equal to "on" or q is equal to "init" then
+			set msg to "Turned on indefinitely"
+			turn on
+		else if q is equal to "off" then
+			set msg to "Turned off"
+			turn off
+		else if q is equal to "start" or q is equal to "init" then
+			set msg to "Application started"
+			activate
+		else
+			try
+				(q as real) div 1
+				turn on for (q * 60)
+				if q is equal to "1" then
+					set s to ""
+				else
+					set s to "s"
+				end if
+				set msg to "Turned on for " & q & " minute" & s
+			on error
+				set msg to "Turned on indefinitely"
+				turn on
+			end try
+		end if
+	end tell
+	
+	if msg is not equal to "" then
+		sendMsg(msg)
+	end if
+	
 end alfred_script

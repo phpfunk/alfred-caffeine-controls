@@ -2,14 +2,14 @@
 # on
 # 5
 # off
-# quit or end or exit
+# quit or end or exit or kill
 # start or init
 # no argument will toggle Caffeine on and off
 ################################
 # On Indefinitely: caff on
 # On for 5 Minutes: caff 5
 # Off: caff off
-# Quit App: caff quit or caff end or caff exit
+# Quit App: caff quit or caff end or caff exit or caff kill
 # Start App: caff start or caff init
 # Toggle: caff
 ################################
@@ -35,27 +35,23 @@ end sendMsg
 on alfred_script(q)
 	
 	set msg to ""
+	set s to {"start", "init"}
+	set e to {"quit", "kill", "end", "exit"}
 	
 	tell application "Caffeine"
-		if q is equal to "quit" or q is equal to "end" or q is equal to "exit" then
+		if q is in e then
 			set msg to "Bye Bye, see you next time."
 			quit
-		else if q is equal to "" or q is missing value then
+		else if q is equal to "" or q is missing value or q is equal to "on" or q is equal to "off" then
 			set toggle to not active
-			if toggle is true then
+			if toggle is true or q is equal to "on" then
 				set msg to "Turned on indefinitely"
 				turn on
 			else
 				set msg to "Turned off"
 				turn off
 			end if
-		else if q is equal to "on" or q is equal to "init" then
-			set msg to "Turned on indefinitely"
-			turn on
-		else if q is equal to "off" then
-			set msg to "Turned off"
-			turn off
-		else if q is equal to "start" or q is equal to "init" then
+		else if q is in s then
 			set msg to "Application started"
 			activate
 		else
@@ -77,6 +73,7 @@ on alfred_script(q)
 	
 	if msg is not equal to "" then
 		sendMsg(msg)
+		return msg
 	end if
 	
 end alfred_script

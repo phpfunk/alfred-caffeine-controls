@@ -34,6 +34,12 @@ Download
 
 
 ## Version History ##
+### 1.2.1 - December 11, 2011###
+
+- Add start/end hashes
+- Grouped on/off with toggle
+- Moved init to where it belongs :)
+
 ### 1.2.0 - December 11, 2011###
 
 - Huge code cleanup

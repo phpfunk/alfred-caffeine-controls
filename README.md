@@ -34,6 +34,12 @@ Download
 
 
 ## Version History ##
+
+### 1.2.2 - December 11, 2011###
+
+- Fixed growl notification name to match earlier build
+- Fixed double off syndrome
+
 ### 1.2.1 - December 11, 2011###
 
 - Add start/end hashes

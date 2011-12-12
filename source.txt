@@ -24,10 +24,10 @@ on sendMsg(msg)
 	
 	if isRunning then
 		tell application id "com.Growl.GrowlHelperApp"
-			set the allNotificationsList to {"Caffeine"}
-			set the enabledNotificationsList to {"Caffeine"}
-			register as application "Caffeine" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "Caffeine"
-			notify with name "Caffeine" title "Caffeine" description msg application name "Caffeine" icon of application "Caffeine"
+			set the allNotificationsList to {"Caffeine Notification"}
+			set the enabledNotificationsList to {"Caffeine Notification"}
+			register as application "Caffeine Controls" all notifications allNotificationsList default notifications enabledNotificationsList icon of application "Caffeine"
+			notify with name "Caffeine Notification" title "Caffeine" description msg application name "Caffeine Controls" icon of application "Caffeine"
 		end tell
 	end if
 end sendMsg
@@ -43,12 +43,19 @@ on alfred_script(q)
 			set msg to "Bye Bye, see you next time."
 			quit
 		else if q is equal to "" or q is missing value or q is equal to "on" or q is equal to "off" then
-			set toggle to not active
-			if toggle is true or q is equal to "on" then
-				set msg to "Turned on indefinitely"
+			if (active is false or q is equal to "on") and q is not equal to "off" then
+				set again to ""
+				if active is true then
+					set again to " again ;)"
+				end if
+				set msg to "Turned on indefinitely" & again
 				turn on
 			else
-				set msg to "Turned off"
+				set again to ""
+				if active is false then
+					set again to " again ;)"
+				end if
+				set msg to "Turned off" & again
 				turn off
 			end if
 		else if q is in s then

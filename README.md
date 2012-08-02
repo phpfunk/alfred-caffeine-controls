@@ -28,12 +28,22 @@ If caffeine is not active and you turn it on with either 'caff on' or 'caff #' o
 Big thanks to [pfburno](https://github.com/pfbruno) for his contributions and ideas for this extension (initial growl integration, toggle and easy-to-use turn on for 'x' minutes approach).
 
 
+Growl vs. No Growl
+----------------
+
+If you wish to install the version **without** Growl, please install the 'Caffeine Controls No Growl.alfredextension'
+
+
 Download
 ----------------
 [Caffeine Controls](https://github.com/phpfunk/alfred-caffeine-controls/downloads)
 
 
 ## Version History ##
+
+### 1.2.3 - August 2, 2012###
+
+- Added a non-growl version
 
 ### 1.2.2 - December 12, 2011###
 

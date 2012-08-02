@@ -30,9 +30,7 @@ Big thanks to [pfburno](https://github.com/pfbruno) for his contributions and id
 
 Growl vs. No Growl
 ----------------
-
-If you wish to install the version **without** Growl, please install the 'Caffeine Controls No Growl.alfredextension'
-
+Two versions of the extension are available, one with Growl and one without. If you wish to use the one without Growl please install the 'Caffeine Controls No Growl.alfredextension' file.
 
 Download
 ----------------

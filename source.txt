@@ -1,6 +1,7 @@
 ### Controls ####
 # on
 # 5
+# 2h
 # off
 # quit or end or exit or kill
 # start or init
@@ -8,6 +9,7 @@
 ################################
 # On Indefinitely: caff on
 # On for 5 Minutes: caff 5
+# On for 2 Hours: caff 2h
 # Off: caff off
 # Quit App: caff quit or caff end or caff exit or caff kill
 # Start App: caff start or caff init
@@ -33,7 +35,15 @@ on sendMsg(msg)
 end sendMsg
 
 on alfred_script(q)
-	
+-- add hours-detection here
+	if q contains "h" then
+		set text item delimiters to "h"
+		set hours to text item 1 of q
+		if hours > 0 then
+			set q to (hours * 60)
+		end if
+	end if
+-- original code below
 	set msg to ""
 	set s to {"start", "init"}
 	set e to {"quit", "kill", "end", "exit"}

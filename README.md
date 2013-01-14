@@ -1,43 +1,29 @@
-Caffeine Controls for Alfred
-============
+# Caffeine Controls for Alfred
 
-An AppleScript so you can easily control Caffeine from [Alfred App](http://alfredapp.com/). You will need Alfred and the Powerpack to use this.
+Easily control Caffeine from [Alfred App](http://alfredapp.com/). You will need Alfred and the Powerpack to use this. Simply type `caff` and toggle caffeine on and off. Need caffeine on for 'x' amount of minutes? No problem, just type `caff 5` and it will run automatically for 5 minutes then turn off. Enjoy.
 
-Installation
-----------------
+## Installation
 
-To install Caffeine Controls in Alfred double click on the extension file.
+To install Caffeine Controls in Alfred double click on the workflow file.
 
-How to use
-----------------
+## Command List
+```
+caff        ::  Toggle caffeine on and off
+caff 5      ::  Turn caffeine on for 5 minutes (the # can be changed to any number)
+caff quit   ::  Quit caffeine (can also use 'caff end' or 'caff exit')
+```
 
-Once installed with Alfred you can run the following commands
+## Download
 
-    caff        ::  Toggle caffeine on and off
-    caff on     ::  Turn caffeine on indefinitely
-    caff 5      ::  Turn caffeine on for 5 minutes (the # can be changed to any number)
-    caff off    ::  Turn caffeine off
-    caff quit   ::  Quit caffeine (can also use 'caff end' or 'caff exit')
-    caff start  ::  Start caffeine (can also use 'caff init')
-
-
-Notes
-----------------
-If caffeine is not active and you turn it on with either 'caff on' or 'caff #' or 'caff', it will automatically start the Caffeine application for you. You do not have to call 'caff start' first.
-
-Big thanks to [pfburno](https://github.com/pfbruno) for his contributions and ideas for this extension (initial growl integration, toggle and easy-to-use turn on for 'x' minutes approach).
-
-
-Growl vs. No Growl
-----------------
-Two versions of the extension are available, one with Growl and one without. If you wish to use the one without Growl please install the 'Caffeine Controls No Growl.alfredextension' file.
-
-Download
-----------------
-[Caffeine Controls](https://github.com/phpfunk/alfred-caffeine-controls/downloads)
+[Caffeine Controls](https://github.com/phpfunk/alfred-caffeine-controls/archive/v2.zip)
 
 
 ## Version History ##
+
+### 2.0.0 - January 13, 2013
+
+* Updated for version 2 of Alfred and simplified the command list.
+* Added notification support for Mountain Lion
 
 ### 1.2.3 - August 2, 2012###
 

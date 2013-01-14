@@ -1,0 +1,29 @@
+on alfred_script(q)
+
+    tell application "Caffeine"
+        if (active is false) then
+            if q is not equal to "" then
+                try
+                    (q as real) div 1
+                    turn on for (q * 60)
+                    if q is equal to "1" then
+                        set s to ""
+                    else
+                        set s to "s"
+                    end if
+                    return "Caffeine started for " & q & " minute" & s & "."
+                on error
+                    turn on
+                    return "Caffeine started for an indefinite amount of time."
+                end try
+            else
+                turn on
+                return "Caffeine started for an indefinite amount of time."
+            end if
+        else
+            turn off
+            return "Caffeine has been turned off."
+        end if
+    end tell
+
+end alfred_script

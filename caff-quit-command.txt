@@ -1,0 +1,7 @@
+on alfred_script(q)
+
+    tell application "Caffeine"
+        quit
+    end tell
+
+end alfred_script

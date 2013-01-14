@@ -3,6 +3,10 @@ Caffeine Controls for Alfred
 
 An AppleScript so you can easily control Caffeine from [Alfred App](http://alfredapp.com/). You will need Alfred and the Powerpack to use this.
 
+## [Version 2 is ready for Alfred 2](https://github.com/phpfunk/alfred-caffeine-controls/tree/v2)
+
+* [Go here to read more.](https://github.com/phpfunk/alfred-caffeine-controls/tree/v2)
+
 Installation
 ----------------
 

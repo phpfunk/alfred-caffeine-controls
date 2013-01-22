@@ -20,6 +20,9 @@ caff quit   ::  Quit caffeine (can also use 'caff end' or 'caff exit')
 
 ## Version History ##
 
+### 2.0.1 - January 21, 2013
+* Update bundle ID
+
 ### 2.0.0 - January 13, 2013
 
 * Updated for version 2 of Alfred and simplified the command list.
